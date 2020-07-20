@@ -1,6 +1,7 @@
 package com.guonl.actuator;
 
-import com.guonl.model.CustomMappings;
+import com.guonl.model.CustomUrlMappings;
+import com.guonl.utils.ParameterNameUtils;
 import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
@@ -19,10 +20,13 @@ import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
 import org.springframework.web.servlet.mvc.condition.RequestMethodsRequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 @Configuration
 @Endpoint(id = "api-manage")
@@ -30,6 +34,13 @@ public class CustomEndPoint {
 
     private final Collection<MappingDescriptionProvider> descriptionProviders;
     private final ApplicationContext context;
+
+    private static final List<String> blackList;
+
+    static {
+        blackList = new ArrayList<>();
+        blackList.add("org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController");
+    }
 
     public CustomEndPoint(Collection<MappingDescriptionProvider> descriptionProviders, ApplicationContext context) {
         this.descriptionProviders = descriptionProviders;
@@ -46,7 +57,7 @@ public class CustomEndPoint {
         WebApplicationContext appContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
 
         //请求url和处理方法的映射
-        List<CustomMappings> itemList = new ArrayList<CustomMappings>();
+        List<CustomUrlMappings> itemList = new ArrayList<CustomUrlMappings>();
         //获取所有的RequestMapping
         Map<String, HandlerMapping> allRequestMappings = BeanFactoryUtils.beansOfTypeIncludingAncestors(appContext,
                 HandlerMapping.class, true, false);
@@ -57,50 +68,48 @@ public class CustomEndPoint {
                 RequestMappingHandlerMapping requestMappingHandlerMapping = (RequestMappingHandlerMapping) handlerMapping;
                 Map<RequestMappingInfo, HandlerMethod> handlerMethods = requestMappingHandlerMapping.getHandlerMethods();
 
-                handlerMethods.forEach((requestMappingInfo, mappingInfoValue) -> {
-
+                handlerMethods.forEach((requestMappingInfo, handlerMethod) -> {
                     //获取接口所在的类名,方法名,参数名
-                    String controllerName = mappingInfoValue.getBeanType().toString();
-                    String requestMethodName = mappingInfoValue.getMethod().getName();
-                    Class<?>[] methodParamTypes = mappingInfoValue.getMethod().getParameterTypes();
+                    Class<?> beanType = handlerMethod.getBeanType();
+                    String controllerName = handlerMethod.getBeanType().getName();
+                    if (blackList.contains(controllerName)) {
+                        return;//跳过本次循环
+                    }
+                    Method method = handlerMethod.getMethod();
+                    String methodContentType = ParameterNameUtils.getMethodContentType(method);
+                    Map<String, Object> parameterMap = ParameterNameUtils.getMethodParameter(method);
+                    String requestMethodName = method.getName();
+                    Class<?>[] methodParamTypes = method.getParameterTypes();
+                    Class<?> returnType = method.getReturnType();
+                    Map<String, Object> returnFields = ParameterNameUtils.getClassFields(returnType);
 
-                    // 获取请求方式GET/POST/PUT/DELETE,如果size大于1，需要添加两个item
+                    // 获取请求方式GET/POST/PUT/DELETE,可能存在多个，for循环遍历
                     RequestMethodsRequestCondition methodCondition = requestMappingInfo.getMethodsCondition();
                     List<RequestMethod> methods = new ArrayList(methodCondition.getMethods());
-                    String requestType = "";
-                    if(methods.size() > 1){
 
-                    }else {
-                        requestType = methods.get(0).name();
-
-                    }
-
-                    // 获取请求的URL,size大于1，需要添加两个item
+                    // 获取请求的URL,可能存在多个，for循环遍历
                     PatternsRequestCondition patternsCondition = requestMappingInfo.getPatternsCondition();
                     List<String> patterns = new ArrayList(patternsCondition.getPatterns());
-                    String requestUrl = "";
-                    if(patterns.size() > 1){
 
-                    }else {
-                        requestUrl = patterns.get(0);
+                    for (RequestMethod requestMethod : methods) {
+                        for (String pattern : patterns) {
+                            CustomUrlMappings item = new CustomUrlMappings();
+                            item.setControllerName(controllerName);
+                            item.setRequestUrl(pattern);
+                            item.setMethodType(requestMethod.name());
+                            item.setMethodName(requestMethodName);
+                            item.setRequestParamClass(methodParamTypes);
+                            item.setRequestParamMap(parameterMap);
+                            item.setReturnParamClass(returnType);
+                            item.setReturnParamMap(returnFields);
+                            item.setMethodContentType(methodContentType);
+                            itemList.add(item);
+                        }
                     }
-
-
-                    CustomMappings item = new CustomMappings();
-                    item.setControllerName(controllerName);
-                    item.setRequestUrl(requestUrl);
-                    item.setRequestType(requestType);
-                    item.setMethodName(requestMethodName);
-                    item.setMethodParmaTypes(methodParamTypes);
-                    itemList.add(item);
-
                 });
             }
-
         });
-
         return ResponseEntity.ok(itemList);
-
     }
 
 
