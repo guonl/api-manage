@@ -1,4 +1,4 @@
-package com.guonl.controller;
+package com.guonl.controller.demo;
 
 import com.guonl.model.CustomUrlMappings;
 import com.guonl.model.FrontResult;

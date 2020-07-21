@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>登录后台系统</title>
+    <meta name="description" content="后台管理框架">
+
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link th:href="@{/css/login.min.css}" rel="stylesheet"/>
+    <link th:href="@{/system/css/system.css?v=4.0.0}" rel="stylesheet"/>
+    <link rel='stylesheet' type="text/css" th:href='@{/css/login/css/style.css}'>
+    <link rel='stylesheet' type="text/css" th:href='@{/css/login/css/reset.css}'>
+
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html"/>
+    <![endif]-->
+    <link rel="shortcut icon" th:href="@{favicon.ico}"/>
+    <style type="text/css">label.error {
+        position: inherit;
+    }</style>
+    <script>
+        if (window.top !== window.self) {
+            window.top.location = window.location
+        }
+        ;
+    </script>
+
+</head>
+<body>
+
+<div id="particles-js">
+    <form class="form" id="signupForm">
+
+        <div class="login">
+            <div class="login-top">
+                登录
+            </div>
+            <div class="login-center clearfix">
+                <div class="login-center-img"><img th:src="@{/css/login/img/name.png}"/></div>
+                <div class="login-center-input">
+                    <input type="text" name="username" value="admin" placeholder="请输入您的用户名" onfocus="this.placeholder=''"
+                           onblur="this.placeholder='请输入您的用户名'"/>
+                    <div class="login-center-input-text">用户名</div>
+                </div>
+            </div>
+            <div class="login-center clearfix">
+                <div class="login-center-img"><img th:src="@{/css/login/img/password.png}"/></div>
+                <div class="login-center-input">
+                    <input type="password" name="password" value="123456" placeholder="请输入您的密码" onfocus="this.placeholder=''"
+                           onblur="this.placeholder='请输入您的密码'"/>
+                    <div class="login-center-input-text">密码</div>
+                </div>
+            </div>
+            <div class="login-center clearfix">
+                <button class="login-button" id="btnSubmit" data-loading="正在验证登录，请稍后...">登录</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<!-- scripts -->
+<script th:src="@{/js/login/particles.min.js}"></script>
+<script th:src="@{/js/login/app.js}"></script>
+
+<script th:inline="javascript"> var ctx = [[@{/}]]; var captchaType = [[${captchaType}]]; </script>
+<!-- 全局js -->
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<!-- 验证插件 -->
+<script th:src="@{/ajax/libs/validate/jquery.validate.min.js}"></script>
+<script th:src="@{/ajax/libs/validate/messages_zh.min.js}"></script>
+<script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+<script th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
+<script th:src="@{/system/js/system.js?v=4.0.0}"></script>
+<script th:src="@{/system/login.js}"></script>
+<script type="text/javascript">
+    function hasClass(elem, cls) {
+        cls = cls || '';
+        if (cls.replace(/\s/g, '').length == 0) return false; //当cls没有参数时，返回false
+        return new RegExp(' ' + cls + ' ').test(' ' + elem.className + ' ');
+    }
+
+    function addClass(ele, cls) {
+        if (!hasClass(ele, cls)) {
+            ele.className = ele.className == '' ? cls : ele.className + ' ' + cls;
+        }
+    }
+
+    function removeClass(ele, cls) {
+        if (hasClass(ele, cls)) {
+            var newClass = ' ' + ele.className.replace(/[\t\r\n]/g, '') + ' ';
+            while (newClass.indexOf(' ' + cls + ' ') >= 0) {
+                newClass = newClass.replace(' ' + cls + ' ', ' ');
+            }
+            ele.className = newClass.replace(/^\s+|\s+$/g, '');
+        }
+    }
+
+    document.querySelector(".login-button").onclick = function () {
+        addClass(document.querySelector(".login"), "active")
+        setTimeout(function () {
+            addClass(document.querySelector(".sk-rotating-plane"), "active")
+            document.querySelector(".login").style.display = "none"
+        }, 800)
+        setTimeout(function () {
+            removeClass(document.querySelector(".login"), "active")
+            removeClass(document.querySelector(".sk-rotating-plane"), "active")
+            document.querySelector(".login").style.display = "block"
+            alert("登录成功")
+
+        }, 5000)
+    }
+</script>
+</body>
+</html>

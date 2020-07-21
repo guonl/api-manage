@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guonl.dao.custom.ApiProjectMapper">
+    
+    <resultMap type="com.guonl.entity.custom.ApiProject" id="ApiProjectResult">
+        <result property="projectId"    column="project_id"    />
+        <result property="projectName"    column="project_name"    />
+        <result property="projectDesc"    column="project_desc"    />
+        <result property="manageUrl"    column="manage_url"    />
+        <result property="projectStatus"    column="project_status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectApiProjectVo">
+        select project_id, project_name, project_desc, manage_url, project_status, create_time, update_time, del_flag from api_project
+    </sql>
+
+    <select id="selectApiProjectList" parameterType="com.guonl.entity.custom.ApiProject" resultMap="ApiProjectResult">
+        <include refid="selectApiProjectVo"/>
+        <where>  
+            <if test="projectName != null  and projectName != ''"> and project_name like concat('%', #{projectName}, '%')</if>
+            <if test="projectDesc != null  and projectDesc != ''"> and project_desc = #{projectDesc}</if>
+            <if test="manageUrl != null  and manageUrl != ''"> and manage_url = #{manageUrl}</if>
+            <if test="projectStatus != null "> and project_status = #{projectStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectApiProjectById" parameterType="Long" resultMap="ApiProjectResult">
+        <include refid="selectApiProjectVo"/>
+        where project_id = #{projectId}
+    </select>
+        
+    <insert id="insertApiProject" parameterType="com.guonl.entity.custom.ApiProject" useGeneratedKeys="true" keyProperty="projectId">
+        insert into api_project
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectName != null  and projectName != ''">project_name,</if>
+            <if test="projectDesc != null  and projectDesc != ''">project_desc,</if>
+            <if test="manageUrl != null  and manageUrl != ''">manage_url,</if>
+            <if test="projectStatus != null ">project_status,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="delFlag != null ">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectName != null  and projectName != ''">#{projectName},</if>
+            <if test="projectDesc != null  and projectDesc != ''">#{projectDesc},</if>
+            <if test="manageUrl != null  and manageUrl != ''">#{manageUrl},</if>
+            <if test="projectStatus != null ">#{projectStatus},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="delFlag != null ">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateApiProject" parameterType="com.guonl.entity.custom.ApiProject">
+        update api_project
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectName != null  and projectName != ''">project_name = #{projectName},</if>
+            <if test="projectDesc != null  and projectDesc != ''">project_desc = #{projectDesc},</if>
+            <if test="manageUrl != null  and manageUrl != ''">manage_url = #{manageUrl},</if>
+            <if test="projectStatus != null ">project_status = #{projectStatus},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="delFlag != null ">del_flag = #{delFlag},</if>
+        </trim>
+        where project_id = #{projectId}
+    </update>
+
+    <delete id="deleteApiProjectById" parameterType="Long">
+        delete from api_project where project_id = #{projectId}
+    </delete>
+
+    <delete id="deleteApiProjectByIds" parameterType="String">
+        delete from api_project where project_id in 
+        <foreach item="projectId" collection="array" open="(" separator="," close=")">
+            #{projectId}
+        </foreach>
+    </delete>
+    
+</mapper>
