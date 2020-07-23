@@ -1,13 +1,14 @@
 package com.guonl.service;
 
-import com.guonl.system.domain.ApiProject;
+
+import com.guonl.entity.custom.ApiProject;
 
 import java.util.List;
 
 /**
  * 项目列表Service接口
  *
- * @author ruoyi
+ * @author guonl
  * @date 2020-07-21
  */
 public interface IApiProjectService {
@@ -17,7 +18,7 @@ public interface IApiProjectService {
      * @param projectId 项目列表ID
      * @return 项目列表
      */
-    public ApiProject selectApiProjectById(Long projectId);
+    ApiProject selectApiProjectById(Integer projectId);
 
     /**
      * 查询项目列表列表
@@ -25,7 +26,7 @@ public interface IApiProjectService {
      * @param apiProject 项目列表
      * @return 项目列表集合
      */
-    public List<ApiProject> selectApiProjectList(ApiProject apiProject);
+    List<ApiProject> selectApiProjectList(ApiProject apiProject);
 
     /**
      * 新增项目列表
@@ -33,7 +34,7 @@ public interface IApiProjectService {
      * @param apiProject 项目列表
      * @return 结果
      */
-    public int insertApiProject(ApiProject apiProject);
+    int insertApiProject(ApiProject apiProject);
 
     /**
      * 修改项目列表
@@ -41,7 +42,7 @@ public interface IApiProjectService {
      * @param apiProject 项目列表
      * @return 结果
      */
-    public int updateApiProject(ApiProject apiProject);
+    int updateApiProject(ApiProject apiProject);
 
     /**
      * 批量删除项目列表
@@ -49,7 +50,7 @@ public interface IApiProjectService {
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-    public int deleteApiProjectByIds(String ids);
+    int deleteApiProjectByIds(String ids);
 
     /**
      * 删除项目列表信息
@@ -57,5 +58,5 @@ public interface IApiProjectService {
      * @param projectId 项目列表ID
      * @return 结果
      */
-    public int deleteApiProjectById(Long projectId);
+    int deleteApiProjectById(Integer projectId);
 }

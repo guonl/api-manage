@@ -1,8 +1,10 @@
 package com.guonl.utils;
 
 import com.guonl.annotation.Excel;
+import com.guonl.annotation.Excel.ColumnType;
 import com.guonl.annotation.Excel.Type;
 import com.guonl.annotation.Excels;
+import com.guonl.exception.BusinessException;
 import com.guonl.model.FrontResult;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.*;
@@ -11,6 +13,7 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFDataValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -21,7 +24,7 @@ import java.util.*;
 /**
  * Excel相关处理
  *
- * @author ruoyi
+ * @author guonl
  */
 public class ExcelUtil<T> {
     private static final Logger log = LoggerFactory.getLogger(ExcelUtil.class);
@@ -547,7 +550,7 @@ public class ExcelUtil<T> {
      * @param filename 文件名称
      */
     public String getAbsoluteFile(String filename) {
-        String downloadPath = Global.getDownloadPath() + filename;
+        String downloadPath = System.getProperty("java.io.tmpdir") + "/" + filename;
         File desc = new File(downloadPath);
         if (!desc.getParentFile().exists()) {
             desc.getParentFile().mkdirs();

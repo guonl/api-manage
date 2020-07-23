@@ -3,7 +3,7 @@ package com.guonl.constant;
 /**
  * 通用常量信息
  *
- * @author ruoyi
+ * @author guonl
  */
 public class Constants {
     /**

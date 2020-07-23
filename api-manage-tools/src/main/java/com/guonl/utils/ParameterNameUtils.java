@@ -1,12 +1,18 @@
 package com.guonl.utils;
 
+import com.alibaba.fastjson.JSONObject;
+import org.springframework.core.AliasRegistry;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -117,9 +123,77 @@ public class ParameterNameUtils {
      */
     public static Map<String, Object> getClassFields(Class<?> clazz) {
         Map<String, Object> map = new HashMap<>();
+        if(isBaseType(clazz)){
+            map.put(clazz.getName(),clazz.getName());
+        }else {
+            Field[] declaredFields = clazz.getDeclaredFields();
+            for (Field field : declaredFields) {
+                map.put(field.getName(), field.getType());
+            }
+        }
+        return map;
+    }
+
+
+//    /**
+//     * 获取方法返回对象的所有成员变量（包含泛型解析）
+//     * @param method
+//     * @return
+//     */
+//    public static JSONObject getReturnClassFields(Method method) {
+//        JSONObject jsonObject = new JSONObject();
+//        //获取泛型
+//        Class<?> clazz = method.getReturnType();
+//        //返回类型不会直接是list
+//        if(clazz == List.class){
+//        }
+//        Type type = method.getGenericReturnType();
+//        if (type instanceof ParameterizedType) {
+//            Type[] actualTypeArguments = ((ParameterizedType) type).getActualTypeArguments();
+//            //因为list泛型只有一个值 所以直接取0下标
+//            Class<?> rawType = ((ParameterizedTypeImpl) actualTypeArguments[0]).getRawType();
+//            if(rawType == List.class){
+//                List list = new ArrayList();
+//                Type[] typeArguments = ((ParameterizedTypeImpl) actualTypeArguments[0]).getActualTypeArguments();
+//                String typeName = typeArguments[0].getTypeName();
+//                //真实返回值类型 Class对象
+//                try {
+//                    Class<?> actualType = Class.forName(typeName);
+//                    Object o = actualType.newInstance();
+//
+//                    jsonObject.putAll(classFields);
+//                } catch (ClassNotFoundException e) {
+//                    e.printStackTrace();
+//                }
+//            }else {
+//                Class<?> aClass = ((ParameterizedTypeImpl) actualTypeArguments[0]).getRawType();
+//                Map<String, Object> classFields = loopGetClassFields(aClass);
+//                jsonObject.putAll(classFields);
+//            }
+//        }
+//        return jsonObject;
+//    }
+
+
+    /**
+     * 递归遍历所有的class中的所有成员变量
+     * @param clazz
+     * @return
+     */
+    private static Map<String,Object> loopGetClassFields(Class<?> clazz){
+        Map<String, Object> map = new HashMap<>();
         Field[] declaredFields = clazz.getDeclaredFields();
         for (Field field : declaredFields) {
-            map.put(field.getName(), field.getType());
+            Class<?> aClass = field.getType();
+            boolean baseType = isBaseType(aClass);
+            //如果是基础类型
+            if(baseType){
+                map.put(field.getName(), aClass);
+            }else {
+                //非基础类型,递归遍历
+                Map<String, Object> loopMap = loopGetClassFields(aClass);
+                map.putAll(loopMap);
+            }
         }
         return map;
     }

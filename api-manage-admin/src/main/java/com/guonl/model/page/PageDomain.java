@@ -5,7 +5,7 @@ import com.guonl.utils.StringUtils;
 /**
  * 分页数据
  *
- * @author ruoyi
+ * @author guonl
  */
 public class PageDomain {
     /**

@@ -81,6 +81,7 @@ public class CustomEndPoint {
                     String requestMethodName = method.getName();
                     Class<?>[] methodParamTypes = method.getParameterTypes();
                     Class<?> returnType = method.getReturnType();
+                    //解析返回对象的泛型
                     Map<String, Object> returnFields = ParameterNameUtils.getClassFields(returnType);
 
                     // 获取请求方式GET/POST/PUT/DELETE,可能存在多个，for循环遍历

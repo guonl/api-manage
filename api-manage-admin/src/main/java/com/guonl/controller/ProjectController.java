@@ -4,12 +4,11 @@ import com.guonl.entity.custom.ApiProject;
 import com.guonl.model.FrontResult;
 import com.guonl.model.page.TableDataInfo;
 import com.guonl.service.IApiProjectService;
+import com.guonl.utils.ExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/project")
-public class ProjectController {
+public class ProjectController extends BaseController {
 
     @Autowired
     private IApiProjectService apiProjectService;
@@ -53,7 +52,7 @@ public class ProjectController {
      */
     @GetMapping("/add")
     public String add() {
-        return prefix + "/add";
+        return "/add";
     }
 
     /**
@@ -61,18 +60,18 @@ public class ProjectController {
      */
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(ApiProject apiProject) {
-        return toAjax(apiProjectService.insertApiProject(apiProject));
+    public FrontResult addSave(ApiProject apiProject) {
+        return FrontResult.success(apiProjectService.insertApiProject(apiProject));
     }
 
     /**
      * 修改项目列表
      */
     @GetMapping("/edit/{projectId}")
-    public String edit(@PathVariable("projectId") Long projectId, ModelMap mmap) {
+    public String edit(@PathVariable("projectId") Integer projectId, ModelMap mmap) {
         ApiProject apiProject = apiProjectService.selectApiProjectById(projectId);
         mmap.put("apiProject", apiProject);
-        return prefix + "/edit";
+        return "/edit";
     }
 
     /**
@@ -80,8 +79,8 @@ public class ProjectController {
      */
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(ApiProject apiProject) {
-        return toAjax(apiProjectService.updateApiProject(apiProject));
+    public FrontResult editSave(ApiProject apiProject) {
+        return FrontResult.success(apiProjectService.updateApiProject(apiProject));
     }
 
     /**
@@ -89,8 +88,8 @@ public class ProjectController {
      */
     @PostMapping("/remove")
     @ResponseBody
-    public AjaxResult remove(String ids) {
-        return toAjax(apiProjectService.deleteApiProjectByIds(ids));
+    public FrontResult remove(String ids) {
+        return FrontResult.success(apiProjectService.deleteApiProjectByIds(ids));
     }
 
 

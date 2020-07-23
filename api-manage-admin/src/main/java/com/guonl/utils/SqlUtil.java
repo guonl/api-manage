@@ -3,7 +3,7 @@ package com.guonl.utils;
 /**
  * sql操作工具类
  *
- * @author ruoyi
+ * @author guonl
  */
 public class SqlUtil {
     /**
