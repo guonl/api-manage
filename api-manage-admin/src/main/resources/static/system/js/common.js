@@ -3,6 +3,15 @@
  * Copyright (c) 2019 ruoyi 
  */
 $(function() {
+
+    //  layer扩展皮肤
+    if (window.layer !== undefined) {
+        layer.config({
+            extend: 'moon/style.css',
+            skin: 'layer-ext-moon'
+        });
+    }
+
 	// select2复选框事件绑定
 	if ($.fn.select2 !== undefined) {
         $.fn.select2.defaults.set( "theme", "bootstrap" );
@@ -268,8 +277,4 @@ $.ajaxSetup({
             $.modal.closeLoading();
         }
     }
-});
-layer.config({
-    extend: 'moon/style.css',
-    skin: 'layer-ext-moon'
 });

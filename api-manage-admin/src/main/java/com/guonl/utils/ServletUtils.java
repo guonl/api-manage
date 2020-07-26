@@ -3,6 +3,7 @@ package com.guonl.utils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -22,6 +23,26 @@ public class ServletUtils {
         return getRequest().getParameter(name);
     }
 
+    /**
+     * 获取String参数
+     */
+    public static String getParameter(String name, String defaultValue) {
+        return Convert.toStr(getRequest().getParameter(name), defaultValue);
+    }
+
+    /**
+     * 获取Integer参数
+     */
+    public static Integer getParameterToInt(String name) {
+        return Convert.toInt(getRequest().getParameter(name));
+    }
+
+    /**
+     * 获取Integer参数
+     */
+    public static Integer getParameterToInt(String name, Integer defaultValue) {
+        return Convert.toInt(getRequest().getParameter(name), defaultValue);
+    }
 
     /**
      * 获取request
@@ -67,15 +88,32 @@ public class ServletUtils {
         return null;
     }
 
-
-    public static Integer getParameterToInt(String num) {
-        Integer no = 0;
-        try {
-            no = Integer.valueOf(num);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
+    /**
+     * 是否是Ajax异步请求
+     *
+     * @param request
+     */
+    public static boolean isAjaxRequest(HttpServletRequest request) {
+        String accept = request.getHeader("accept");
+        if (accept != null && accept.indexOf("application/json") != -1) {
+            return true;
         }
-        return no;
+
+        String xRequestedWith = request.getHeader("X-Requested-With");
+        if (xRequestedWith != null && xRequestedWith.indexOf("XMLHttpRequest") != -1) {
+            return true;
+        }
+
+        String uri = request.getRequestURI();
+        if (StringUtils.inStringIgnoreCase(uri, ".json", ".xml")) {
+            return true;
+        }
+
+        String ajax = request.getParameter("__ajax");
+        if (StringUtils.inStringIgnoreCase(ajax, "json", "xml")) {
+            return true;
+        }
+        return false;
     }
 
 

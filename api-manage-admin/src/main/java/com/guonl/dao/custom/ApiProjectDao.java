@@ -9,7 +9,7 @@ import java.util.List;
  * @author guonl
  * @date 2020-07-21
  */
-public interface ApiProjectMapper {
+public interface ApiProjectDao {
     
     /**
      * 查询项目列表

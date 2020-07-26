@@ -35,7 +35,7 @@ public class IndexController {
     // 系统介绍
     @GetMapping("/system/main")
     public String main(ModelMap mmap) {
-        return "main";
+        return "main2";
     }
 
 

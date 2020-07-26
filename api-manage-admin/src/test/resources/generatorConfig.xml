@@ -19,6 +19,8 @@
         <plugin type="com.itfsw.mybatis.generator.plugins.ConstructorBasedBugFixPlugin" />
         <!-- Selective选择插入更新增强插件 -->
         <plugin type="com.itfsw.mybatis.generator.plugins.SelectiveEnhancedPlugin"/>
+        <!-- 覆盖生成的xml-->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
 
         <!-- 去除自动生成的注释 -->
         <commentGenerator>

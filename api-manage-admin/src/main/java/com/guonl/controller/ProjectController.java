@@ -24,6 +24,11 @@ public class ProjectController extends BaseController {
     @Autowired
     private IApiProjectService apiProjectService;
 
+    @GetMapping("/view")
+    public String project() {
+        return "project/project";
+    }
+
 
     /**
      * 查询项目列表列表
@@ -52,7 +57,7 @@ public class ProjectController extends BaseController {
      */
     @GetMapping("/add")
     public String add() {
-        return "/add";
+        return "project/add";
     }
 
     /**
@@ -71,7 +76,7 @@ public class ProjectController extends BaseController {
     public String edit(@PathVariable("projectId") Integer projectId, ModelMap mmap) {
         ApiProject apiProject = apiProjectService.selectApiProjectById(projectId);
         mmap.put("apiProject", apiProject);
-        return "/edit";
+        return "project//edit";
     }
 
     /**

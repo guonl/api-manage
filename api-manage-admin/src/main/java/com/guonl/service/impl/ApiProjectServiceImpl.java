@@ -1,6 +1,6 @@
 package com.guonl.service.impl;
 
-import com.guonl.dao.custom.ApiProjectMapper;
+import com.guonl.dao.custom.ApiProjectDao;
 import com.guonl.entity.custom.ApiProject;
 import com.guonl.service.IApiProjectService;
 import com.guonl.utils.Convert;
@@ -20,7 +20,7 @@ import java.util.List;
 public class ApiProjectServiceImpl implements IApiProjectService {
 
     @Autowired
-    private ApiProjectMapper apiProjectMapper;
+    private ApiProjectDao apiProjectDao;
 
     /**
      * 查询项目列表
@@ -30,7 +30,7 @@ public class ApiProjectServiceImpl implements IApiProjectService {
      */
     @Override
     public ApiProject selectApiProjectById(Integer projectId) {
-        return apiProjectMapper.selectApiProjectById(projectId);
+        return apiProjectDao.selectApiProjectById(projectId);
     }
 
     /**
@@ -41,7 +41,7 @@ public class ApiProjectServiceImpl implements IApiProjectService {
      */
     @Override
     public List<ApiProject> selectApiProjectList(ApiProject apiProject) {
-        return apiProjectMapper.selectApiProjectList(apiProject);
+        return apiProjectDao.selectApiProjectList(apiProject);
     }
 
     /**
@@ -53,7 +53,7 @@ public class ApiProjectServiceImpl implements IApiProjectService {
     @Override
     public int insertApiProject(ApiProject apiProject) {
         apiProject.setCreateTime(DateUtils.getNowDate());
-        return apiProjectMapper.insertApiProject(apiProject);
+        return apiProjectDao.insertApiProject(apiProject);
     }
 
     /**
@@ -65,7 +65,7 @@ public class ApiProjectServiceImpl implements IApiProjectService {
     @Override
     public int updateApiProject(ApiProject apiProject) {
         apiProject.setUpdateTime(DateUtils.getNowDate());
-        return apiProjectMapper.updateApiProject(apiProject);
+        return apiProjectDao.updateApiProject(apiProject);
     }
 
     /**
@@ -76,7 +76,7 @@ public class ApiProjectServiceImpl implements IApiProjectService {
      */
     @Override
     public int deleteApiProjectByIds(String ids) {
-        return apiProjectMapper.deleteApiProjectByIds(Convert.toStrArray(ids));
+        return apiProjectDao.deleteApiProjectByIds(Convert.toStrArray(ids));
     }
 
     /**
@@ -87,6 +87,6 @@ public class ApiProjectServiceImpl implements IApiProjectService {
      */
     @Override
     public int deleteApiProjectById(Integer projectId) {
-        return apiProjectMapper.deleteApiProjectById(projectId);
+        return apiProjectDao.deleteApiProjectById(projectId);
     }
 }
