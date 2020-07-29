@@ -10,7 +10,7 @@ import java.util.Map;
  * Description: 解析对象类
  */
 @Data
-public class CustomUrlMappings {
+public class ApiUrlMappings {
 
     /**
      * 类名

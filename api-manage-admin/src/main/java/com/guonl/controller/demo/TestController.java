@@ -1,24 +1,10 @@
 package com.guonl.controller.demo;
 
-import com.guonl.model.CustomUrlMappings;
 import com.guonl.model.FrontResult;
 import com.guonl.model.User;
-import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.HandlerMapping;
-import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
-import org.springframework.web.servlet.mvc.condition.RequestMethodsRequestCondition;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-import javax.servlet.ServletContext;
+
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/test")

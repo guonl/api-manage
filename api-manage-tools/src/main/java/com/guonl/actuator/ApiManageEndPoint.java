@@ -1,6 +1,6 @@
 package com.guonl.actuator;
 
-import com.guonl.model.CustomUrlMappings;
+import com.guonl.model.ApiUrlMappings;
 import com.guonl.utils.ParameterNameUtils;
 import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
@@ -30,7 +30,7 @@ import java.util.Map;
 
 @Configuration
 @Endpoint(id = "api-manage")
-public class CustomEndPoint {
+public class ApiManageEndPoint {
 
     private final Collection<MappingDescriptionProvider> descriptionProviders;
     private final ApplicationContext context;
@@ -42,7 +42,7 @@ public class CustomEndPoint {
         blackList.add("org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController");
     }
 
-    public CustomEndPoint(Collection<MappingDescriptionProvider> descriptionProviders, ApplicationContext context) {
+    public ApiManageEndPoint(Collection<MappingDescriptionProvider> descriptionProviders, ApplicationContext context) {
         this.descriptionProviders = descriptionProviders;
         this.context = context;
     }
@@ -57,7 +57,7 @@ public class CustomEndPoint {
         WebApplicationContext appContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
 
         //请求url和处理方法的映射
-        List<CustomUrlMappings> itemList = new ArrayList<CustomUrlMappings>();
+        List<ApiUrlMappings> itemList = new ArrayList<ApiUrlMappings>();
         //获取所有的RequestMapping
         Map<String, HandlerMapping> allRequestMappings = BeanFactoryUtils.beansOfTypeIncludingAncestors(appContext,
                 HandlerMapping.class, true, false);
@@ -94,7 +94,7 @@ public class CustomEndPoint {
 
                     for (RequestMethod requestMethod : methods) {
                         for (String pattern : patterns) {
-                            CustomUrlMappings item = new CustomUrlMappings();
+                            ApiUrlMappings item = new ApiUrlMappings();
                             item.setControllerName(controllerName);
                             item.setRequestUrl(pattern);
                             item.setMethodType(requestMethod.name());

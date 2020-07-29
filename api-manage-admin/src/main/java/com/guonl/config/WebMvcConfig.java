@@ -35,6 +35,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         excludeList.add("/**/*.js");
         excludeList.add("/**/*.css");
         excludeList.add("/login");//登录
+        excludeList.add("/test/**");
     }
 
     /**
