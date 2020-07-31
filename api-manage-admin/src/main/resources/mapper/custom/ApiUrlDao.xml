@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guonl.dao.custom.ApiUrlDao">
+    
+    <resultMap type="com.guonl.entity.custom.ApiUrl" id="ApiUrlResult">
+        <result property="urlId"    column="url_id"    />
+        <result property="controllerId"    column="controller_id"    />
+        <result property="requestUrl"    column="request_url"    />
+        <result property="methodName"    column="method_name"    />
+        <result property="methodType"    column="method_type"    />
+        <result property="methodContentType"    column="method_content_type"    />
+        <result property="requestParamMap"    column="request_param_map"    />
+        <result property="returnParamClass"    column="return_param_class"    />
+        <result property="returnParamMap"    column="return_param_map"    />
+        <result property="urlStatus"    column="url_status"    />
+        <result property="urlLabel"    column="url_label"    />
+        <result property="methodDesc"    column="method_desc"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectApiUrlVo">
+        select url_id, controller_id, request_url, method_name, method_type, method_content_type, request_param_map, return_param_class, return_param_map, url_status, url_label, method_desc, create_time, update_time, del_flag from api_url
+    </sql>
+
+    <select id="selectApiUrlList" parameterType="com.guonl.entity.custom.ApiUrl" resultMap="ApiUrlResult">
+        <include refid="selectApiUrlVo"/>
+        <where>  
+            <if test="controllerId != null "> and controller_id = #{controllerId}</if>
+            <if test="requestUrl != null  and requestUrl != ''"> and request_url = #{requestUrl}</if>
+            <if test="methodName != null  and methodName != ''"> and method_name like concat('%', #{methodName}, '%')</if>
+            <if test="methodType != null  and methodType != ''"> and method_type = #{methodType}</if>
+            <if test="methodContentType != null  and methodContentType != ''"> and method_content_type = #{methodContentType}</if>
+            <if test="requestParamMap != null  and requestParamMap != ''"> and request_param_map = #{requestParamMap}</if>
+            <if test="returnParamClass != null  and returnParamClass != ''"> and return_param_class = #{returnParamClass}</if>
+            <if test="returnParamMap != null  and returnParamMap != ''"> and return_param_map = #{returnParamMap}</if>
+            <if test="urlStatus != null "> and url_status = #{urlStatus}</if>
+            <if test="urlLabel != null  and urlLabel != ''"> and url_label = #{urlLabel}</if>
+            <if test="methodDesc != null  and methodDesc != ''"> and method_desc = #{methodDesc}</if>
+        </where>
+    </select>
+    
+    <select id="selectApiUrlById" parameterType="Integer" resultMap="ApiUrlResult">
+        <include refid="selectApiUrlVo"/>
+        where url_id = #{urlId}
+    </select>
+        
+    <insert id="insertApiUrl" parameterType="com.guonl.entity.custom.ApiUrl" useGeneratedKeys="true" keyProperty="urlId">
+        insert into api_url
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="controllerId != null ">controller_id,</if>
+            <if test="requestUrl != null  and requestUrl != ''">request_url,</if>
+            <if test="methodName != null  and methodName != ''">method_name,</if>
+            <if test="methodType != null  and methodType != ''">method_type,</if>
+            <if test="methodContentType != null  and methodContentType != ''">method_content_type,</if>
+            <if test="requestParamMap != null  and requestParamMap != ''">request_param_map,</if>
+            <if test="returnParamClass != null  and returnParamClass != ''">return_param_class,</if>
+            <if test="returnParamMap != null  and returnParamMap != ''">return_param_map,</if>
+            <if test="urlStatus != null ">url_status,</if>
+            <if test="urlLabel != null  and urlLabel != ''">url_label,</if>
+            <if test="methodDesc != null  and methodDesc != ''">method_desc,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="delFlag != null ">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="controllerId != null ">#{controllerId},</if>
+            <if test="requestUrl != null  and requestUrl != ''">#{requestUrl},</if>
+            <if test="methodName != null  and methodName != ''">#{methodName},</if>
+            <if test="methodType != null  and methodType != ''">#{methodType},</if>
+            <if test="methodContentType != null  and methodContentType != ''">#{methodContentType},</if>
+            <if test="requestParamMap != null  and requestParamMap != ''">#{requestParamMap},</if>
+            <if test="returnParamClass != null  and returnParamClass != ''">#{returnParamClass},</if>
+            <if test="returnParamMap != null  and returnParamMap != ''">#{returnParamMap},</if>
+            <if test="urlStatus != null ">#{urlStatus},</if>
+            <if test="urlLabel != null  and urlLabel != ''">#{urlLabel},</if>
+            <if test="methodDesc != null  and methodDesc != ''">#{methodDesc},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="delFlag != null ">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateApiUrl" parameterType="com.guonl.entity.custom.ApiUrl">
+        update api_url
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="controllerId != null ">controller_id = #{controllerId},</if>
+            <if test="requestUrl != null  and requestUrl != ''">request_url = #{requestUrl},</if>
+            <if test="methodName != null  and methodName != ''">method_name = #{methodName},</if>
+            <if test="methodType != null  and methodType != ''">method_type = #{methodType},</if>
+            <if test="methodContentType != null  and methodContentType != ''">method_content_type = #{methodContentType},</if>
+            <if test="requestParamMap != null  and requestParamMap != ''">request_param_map = #{requestParamMap},</if>
+            <if test="returnParamClass != null  and returnParamClass != ''">return_param_class = #{returnParamClass},</if>
+            <if test="returnParamMap != null  and returnParamMap != ''">return_param_map = #{returnParamMap},</if>
+            <if test="urlStatus != null ">url_status = #{urlStatus},</if>
+            <if test="urlLabel != null  and urlLabel != ''">url_label = #{urlLabel},</if>
+            <if test="methodDesc != null  and methodDesc != ''">method_desc = #{methodDesc},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="delFlag != null ">del_flag = #{delFlag},</if>
+        </trim>
+        where url_id = #{urlId}
+    </update>
+
+    <delete id="deleteApiUrlById" parameterType="Integer">
+        delete from api_url where url_id = #{urlId}
+    </delete>
+
+    <delete id="deleteApiUrlByIds" parameterType="String">
+        delete from api_url where url_id in 
+        <foreach item="urlId" collection="array" open="(" separator="," close=")">
+            #{urlId}
+        </foreach>
+    </delete>
+    
+</mapper>

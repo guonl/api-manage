@@ -1,6 +1,5 @@
 package com.guonl.entity.custom;
 
-import com.guonl.annotation.Excel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -17,30 +16,26 @@ public class ApiProject extends BaseEntity {
     /**
      * 主键
      */
-    private Long projectId;
+    private Integer projectId;
 
     /**
      * 项目名称
      */
-    @Excel(name = "项目名称")
     private String projectName;
 
     /**
      * 项目描述
      */
-    @Excel(name = "项目描述")
     private String projectDesc;
 
     /**
      * url地址
      */
-    @Excel(name = "url地址")
     private String manageUrl;
 
     /**
      * 0-禁用 1-启用
      */
-    @Excel(name = "0-禁用 1-启用")
     private Integer projectStatus;
 
     /**
@@ -48,11 +43,11 @@ public class ApiProject extends BaseEntity {
      */
     private Integer delFlag;
 
-    public void setProjectId(Long projectId) {
+    public void setProjectId(Integer projectId) {
         this.projectId = projectId;
     }
 
-    public Long getProjectId() {
+    public Integer getProjectId() {
         return projectId;
     }
 

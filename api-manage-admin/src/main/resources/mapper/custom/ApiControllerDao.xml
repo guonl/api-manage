@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guonl.dao.custom.ApiControllerDao">
+    
+    <resultMap type="com.guonl.entity.custom.ApiController" id="ApiControllerResult">
+        <result property="controllerId"    column="controller_id"    />
+        <result property="projectId"    column="project_id"    />
+        <result property="controllerName"    column="controller_name"    />
+        <result property="controllerShortName"    column="controller_short_name"    />
+        <result property="controllerDesc"    column="controller_desc"    />
+        <result property="controllerStatus"    column="controller_status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectApiControllerVo">
+        select controller_id, project_id, controller_name, controller_short_name, controller_desc, controller_status, create_time, update_time, del_flag from api_controller
+    </sql>
+
+    <select id="selectApiControllerList" parameterType="com.guonl.entity.custom.ApiController" resultMap="ApiControllerResult">
+        <include refid="selectApiControllerVo"/>
+        <where>  
+            <if test="projectId != null "> and project_id = #{projectId}</if>
+            <if test="controllerName != null  and controllerName != ''"> and controller_name like concat('%', #{controllerName}, '%')</if>
+            <if test="controllerShortName != null  and controllerShortName != ''"> and controller_short_name like concat('%', #{controllerShortName}, '%')</if>
+            <if test="controllerDesc != null  and controllerDesc != ''"> and controller_desc = #{controllerDesc}</if>
+            <if test="controllerStatus != null "> and controller_status = #{controllerStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectApiControllerById" parameterType="Integer" resultMap="ApiControllerResult">
+        <include refid="selectApiControllerVo"/>
+        where controller_id = #{controllerId}
+    </select>
+        
+    <insert id="insertApiController" parameterType="com.guonl.entity.custom.ApiController" useGeneratedKeys="true" keyProperty="controllerId">
+        insert into api_controller
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectId != null ">project_id,</if>
+            <if test="controllerName != null  and controllerName != ''">controller_name,</if>
+            <if test="controllerShortName != null  and controllerShortName != ''">controller_short_name,</if>
+            <if test="controllerDesc != null  and controllerDesc != ''">controller_desc,</if>
+            <if test="controllerStatus != null ">controller_status,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="delFlag != null ">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectId != null ">#{projectId},</if>
+            <if test="controllerName != null  and controllerName != ''">#{controllerName},</if>
+            <if test="controllerShortName != null  and controllerShortName != ''">#{controllerShortName},</if>
+            <if test="controllerDesc != null  and controllerDesc != ''">#{controllerDesc},</if>
+            <if test="controllerStatus != null ">#{controllerStatus},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="delFlag != null ">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateApiController" parameterType="com.guonl.entity.custom.ApiController">
+        update api_controller
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectId != null ">project_id = #{projectId},</if>
+            <if test="controllerName != null  and controllerName != ''">controller_name = #{controllerName},</if>
+            <if test="controllerShortName != null  and controllerShortName != ''">controller_short_name = #{controllerShortName},</if>
+            <if test="controllerDesc != null  and controllerDesc != ''">controller_desc = #{controllerDesc},</if>
+            <if test="controllerStatus != null ">controller_status = #{controllerStatus},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="delFlag != null ">del_flag = #{delFlag},</if>
+        </trim>
+        where controller_id = #{controllerId}
+    </update>
+
+    <delete id="deleteApiControllerById" parameterType="Integer">
+        delete from api_controller where controller_id = #{controllerId}
+    </delete>
+
+    <delete id="deleteApiControllerByIds" parameterType="String">
+        delete from api_controller where controller_id in 
+        <foreach item="controllerId" collection="array" open="(" separator="," close=")">
+            #{controllerId}
+        </foreach>
+    </delete>
+    
+</mapper>

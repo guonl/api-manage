@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('接口详情')"/>
+    <link rel="stylesheet" href="/xxl/adminlte/dist/css/AdminLTE-local.min.css">
+    <link rel="stylesheet" href="/xxl/plugins/jsontree/jquery.jsonview.css">
+</head>
+
+
+<body class="gray-bg">
+<section class="content-header">
+    <h1>接口详情</h1>
+</section>
+
+<section class="content">
+    <form class="form-horizontal" id="ducomentForm">
+        <input type="hidden" name="id" value="1">
+        <input type="hidden" name="projectId" value="1">
+
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">基础信息</h3>
+                <div class="box-tools pull-right">
+                    <button class="btn btn-default btn-xs" type="button"
+                            onclick="javascript:window.location.href='/xxl-api-admin/group?projectId=1&groupId=0'">
+                        返回接口列表
+                    </button>
+                    <button class="btn btn-default btn-xs" type="button"
+                            onclick="javascript:window.location.href='/url/detail/edit/2'">修改接口
+                    </button>
+                </div>
+            </div>
+
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-1">URL</label>
+                    <div class="col-sm-6">
+                        <select id="projectBaseUrlUpdate">
+                            <option value="http://localhost:8081">线上环境</option>
+                        </select>
+                        &nbsp;&nbsp;
+                        <span id="projectBaseUrl">http://localhost:8081</span><span>/test/user</span>
+                    </div>
+                    <label class="col-sm-1">分组</label>
+                    <div class="col-sm-4">
+                        默认分组
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1">Method</label>
+                    <div class="col-sm-6">
+                        POST
+
+
+                    </div>
+                    <label class="col-sm-1">状态</label>
+                    <div class="col-sm-4">
+                        启用
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1">名称</label>
+                    <div class="col-sm-11">
+                        <span style="color: #00a65a;">测试用户接口</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="box box-primary">
+            <div class="box-header">
+                <h3 class="box-title">请求参数</h3>
+            </div>
+
+            <div class="box-body no-padding">
+                <table class="table table-striped">
+                    <tr>
+                        <th style="width: 25%;">参数名称</th>
+                        <th style="width: 25%;">参数说明</th>
+                        <th style="width: 25%;">数据类型</th>
+                        <th style="width: 25%;">是否必填</th>
+                    </tr>
+                    <tr>
+                        <td>name</td>
+                        <td>姓名</td>
+                        <td>STRING</td>
+                        <td>
+                            必填
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>age</td>
+                        <td>年龄</td>
+                        <td>INT</td>
+                        <td>
+                            必填
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>email</td>
+                        <td>邮箱</td>
+                        <td>STRING</td>
+                        <td>
+                            必填
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>mobile</td>
+                        <td>手机号</td>
+                        <td>STRING</td>
+                        <td>
+                            必填
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="nav-tabs-custom">
+            <!-- Tabs within a box -->
+            <ul class="nav nav-tabs pull-right">
+                <li><a href="#fail_resp" data-toggle="tab">失败响应结果</a></li>
+                <li class="active"><a href="#success_resp" data-toggle="tab">成功响应结果</a></li>
+                <li class="pull-left header">响应结果</li>
+            </ul>
+            <div class="tab-content no-padding">
+                <!-- Morris chart - Sales -->
+                <div class="chart tab-pane active" id="success_resp" style="position: relative; height: 100%;">
+                    <div class="box-body">
+                        JSON
+                        <br>
+                        <pre name="successRespExample" class="jsonViewPre"
+                             style="width: 100%; height: 100%; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;margin-top: 15px;"></pre>
+                    </div>
+                </div>
+                <div class="chart tab-pane" id="fail_resp" style="position: relative; height: 100%;">
+                    <div class="box-body">
+                        JSON
+                        <br>
+                        <pre name="failRespExample" class="jsonViewPre"
+                             style="width: 100%; height: 100%; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;margin-top: 15px;"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</section>
+
+
+<th:block th:include="include :: footer"/>
+</body>
+</html>

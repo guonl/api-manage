@@ -104,7 +104,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.guonl.entity.TApiController">
+  <insert id="insert" parameterType="com.guonl.entity.TApiController" useGeneratedKeys="true" keyProperty="controllerId" keyColumn="controller_id">
     insert into api_controller (controller_id, project_id, controller_name, 
       controller_short_name, controller_desc, controller_status, 
       create_time, update_time, del_flag
@@ -114,7 +114,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=BIT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="map">
+  <insert id="insertSelective" parameterType="map" useGeneratedKeys="true" keyProperty="controllerId" keyColumn="controller_id">
     insert into api_controller
     <choose>
       <when test="selective != null and selective.length > 0">

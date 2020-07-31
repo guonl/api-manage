@@ -29,7 +29,7 @@
         </commentGenerator>
         <!-- 生发环境数据库配置:修改配置 -->
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-                        connectionURL="jdbc:mysql://127.0.0.1:3306/db_api_manage?useUnicode=true"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/db_api_manage?serverTimezone=UTC"
                         userId="root"
                         password="123456">
             <!-- 不识别主键:https://my.oschina.net/u/2289161/blog/1589630 -->
@@ -64,8 +64,8 @@
 
 
         <!-- 表转代码：tableName：修改表名 -->
-            <table tableName="api_project" domainObjectName="TApiProject"></table>
-            <table tableName="api_controller" domainObjectName="TApiController"></table>
+<!--            <table tableName="api_project" domainObjectName="TApiProject"></table>-->
+<!--            <table tableName="api_controller" domainObjectName="TApiController"></table>-->
             <table tableName="api_url" domainObjectName="TApiUrl"></table>
     </context>
 </generatorConfiguration>

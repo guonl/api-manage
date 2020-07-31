@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API管理平台</title>
+    <link rel="shortcut icon" href="/xxl/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/xxl/adminlte/plugins/select2/select2.min.css">
+    <link rel="stylesheet" href="/xxl/adminlte/plugins/iCheck/square/_all.css">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="/xxl/adminlte/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"> -->
+    <link rel="stylesheet" href="/xxl/plugins/font-awesome-4.5.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"> -->
+    <link rel="stylesheet" href="/xxl/plugins/ionicons-2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/xxl/adminlte/dist/css/AdminLTE-local.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="/xxl/adminlte/dist/css/skins/_all-skins.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- pace -->
+    <link rel="stylesheet" href="/xxl/plugins/pace/themes/pace-theme-flash.css">
+    <link rel="stylesheet" href="/xxl/plugins/editor.md-1.5.0/main/editormd.min.css">
+    <link rel="stylesheet" href="/xxl/plugins/jsontree/jquery.jsonview.css">
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini ">
+<div class="gray-bg">
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>新增接口</h1>
+        </section>
+
+        <section class="content">
+            <form class="form-horizontal" id="ducomentForm" >
+                <input type="hidden" name="projectId" value="1" >
+
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">基础信息</h3>
+                        <div class="box-tools pull-right">
+                            <button class="btn btn-default btn-xs" type="button" onclick="javascript:window.location.href='/xxl-api-admin/group?projectId=1'" >返回接口列表</button>
+                            <button class="btn btn-info btn-xs" type="submit" >保存接口</button>
+                        </div>
+                    </div>
+
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">URL</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="requestUrl" placeholder="请输入接口URL（相对地址）" maxlength="100" >
+                            </div>
+                            <label class="col-sm-1 control-label">分组</label>
+                            <div class="col-sm-4">
+                                <select class="form-control select2" style="width: 100%;" name="groupId">
+                                    <option value="0">默认分组</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">Method</label>
+                            <div class="col-sm-6">
+                                <select class="form-control select2" style="width: 100%;" name="requestMethod">
+                                    <option value="POST">POST</option>
+                                    <option value="GET">GET</option>
+                                    <option value="PUT">PUT</option>
+                                    <option value="DELETE">DELETE</option>
+                                    <option value="HEAD">HEAD</option>
+                                    <option value="OPTIONS">OPTIONS</option>
+                                    <option value="PATCH">PATCH</option>
+                                </select>
+                            </div>
+                            <label class="col-sm-1 control-label">状态</label>
+                            <div class="col-sm-4">
+                                <input type="radio" class="iCheck" name="status" value="0" checked >启用  &nbsp;&nbsp;
+                                <input type="radio" class="iCheck" name="status" value="1" >维护  &nbsp;&nbsp;
+                                <input type="radio" class="iCheck" name="status" value="2" >废弃
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">名称</label>
+                            <div class="col-sm-11">
+                                <input type="text" class="form-control" name="name" placeholder="请输入接口名称" maxlength="50" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">请求头部</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" id="requestHeaders_add" ><i class="fa fa-plus"></i></button>
+                        </div>
+                    </div>
+
+                    <div id="requestHeaders_example" style="display: none;" >
+                        <div class="form-group requestHeaders_item" >
+                            <label class="col-sm-1 control-label">Key</label>
+                            <div class="col-sm-4 item">
+                                <select class="form-control select2_tag_new key" >
+                                    <option value=""></option>
+                                    <option value="Accept">Accept</option>
+                                    <option value="Accept-Charset">Accept-Charset</option>
+                                    <option value="Accept-Encoding">Accept-Encoding</option>
+                                    <option value="Accept-Language">Accept-Language</option>
+                                    <option value="Accept-Ranges">Accept-Ranges</option>
+                                    <option value="Authorization">Authorization</option>
+                                    <option value="Cache-Control">Cache-Control</option>
+                                    <option value="Connection">Connection</option>
+                                    <option value="Cookie">Cookie</option>
+                                    <option value="Content-Length">Content-Length</option>
+                                    <option value="Content-Type">Content-Type</option>
+                                    <option value="Date">Date</option>
+                                    <option value="Expect">Expect</option>
+                                    <option value="From">From</option>
+                                    <option value="Host">Host</option>
+                                    <option value="If-Match">If-Match</option>
+                                    <option value="If-Modified-Since">If-Modified-Since</option>
+                                    <option value="If-None-Match">If-None-Match</option>
+                                    <option value="If-Range">If-Range</option>
+                                    <option value="If-Unmodified-Since">If-Unmodified-Since</option>
+                                    <option value="Max-Forwards">Max-Forwards</option>
+                                    <option value="Pragma">Pragma</option>
+                                    <option value="Proxy-Authorization">Proxy-Authorization</option>
+                                    <option value="Range">Range</option>
+                                    <option value="Referer">Referer</option>
+                                    <option value="TE">TE</option>
+                                    <option value="Upgrade">Upgrade</option>
+                                    <option value="User-Agent">User-Agent</option>
+                                    <option value="Via">Via</option>
+                                    <option value="Warning">Warning</option>
+                                </select>
+                            </div>
+                            <label class="col-sm-1 control-label">Value</label>
+                            <div class="col-sm-5 item">
+                                <input type="text" class="form-control value">
+                            </div>
+                            <button type="button" class="col-sm-1 btn btn-box-tool delete" ><i class="fa fa-fw fa-close"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="box-body" id="requestHeaders_parent" >
+                    </div>
+                </div>
+
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">请求参数</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" id="queryParams_add" ><i class="fa fa-plus"></i></button>
+                        </div>
+                    </div>
+
+                    <div id="queryParams_example" style="display: none;" >
+                        <div class="form-group queryParams_item" >
+                            <label class="col-sm-1 control-label">参数</label>
+                            <div class="col-sm-2 item">
+                                <input type="text" class="form-control name">
+                            </div>
+                            <label class="col-sm-1 control-label">说明</label>
+                            <div class="col-sm-2 item">
+                                <input type="text" class="form-control desc">
+                            </div>
+                            <label class="col-sm-1 control-label">类型</label>
+                            <div class="col-sm-2 item">
+                                <select class="form-control select2_tag_new type" style="width: 100%;">
+                                    <option value="STRING">STRING</option>
+                                    <option value="BOOLEAN">BOOLEAN</option>
+                                    <option value="SHORT">SHORT</option>
+                                    <option value="INT">INT</option>
+                                    <option value="LONG">LONG</option>
+                                    <option value="FLOAT">FLOAT</option>
+                                    <option value="DOUBLE">DOUBLE</option>
+                                    <option value="DATE">DATE</option>
+                                    <option value="DATETIME">DATETIME</option>
+                                    <option value="JSON">JSON</option>
+                                    <option value="BYTE">BYTE</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2 item">
+                                <select class="form-control select2_tag_new notNull" style="width: 100%;">
+                                    <option value="true">必填</option>
+                                    <option value="false">非必填</option>
+                                </select>
+                            </div>
+                            <button type="button" class="col-sm-1 btn btn-box-tool delete" ><i class="fa fa-fw fa-close"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="box-body" id="queryParams_parent" >
+                    </div>
+                </div>
+
+                <div class="nav-tabs-custom">
+                    <!-- Tabs within a box -->
+                    <ul class="nav nav-tabs pull-right">
+                        <li><a href="#fail_resp" data-toggle="tab">失败响应结果</a></li>
+                        <li class="active"><a href="#success_resp" data-toggle="tab">成功响应结果</a></li>
+                        <li class="pull-left header">响应结果</li>
+                    </ul>
+                    <div class="tab-content no-padding">
+                        <!-- Morris chart - Sales -->
+                        <div class="chart tab-pane active" id="success_resp" style="position: relative; height: 365px;">
+                            <div class="box-body">
+                                响应数据类型(MIME)：
+                                <input type="radio" class="iCheck" name="successRespType" value="JSON" checked >JSON  &nbsp;&nbsp;
+                                <input type="radio" class="iCheck" name="successRespType" value="XML"  >XML  &nbsp;&nbsp;
+                                <input type="radio" class="iCheck" name="successRespType" value="HTML"  >HTML  &nbsp;&nbsp;
+                                <input type="radio" class="iCheck" name="successRespType" value="TEXT"  >TEXT  &nbsp;&nbsp;
+                                <input type="radio" class="iCheck" name="successRespType" value="JSONP"  >JSONP  &nbsp;&nbsp;
+                                <button type="button" class="btn btn-box-tool pull-right" id="successRespExample_2json" >JSON格式化</button>
+                                <br>
+                                <textarea name="successRespExample" id="successRespExample" style="width: 100%; height: 300px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;margin-top: 15px;" ></textarea>
+                            </div>
+                        </div>
+                        <div class="chart tab-pane" id="fail_resp" style="position: relative; height: 365px;">
+                            <div class="box-body">
+                                响应数据类型(MIME)：
+                                <input type="radio" class="iCheck" name="failRespType" value="JSON" checked >JSON  &nbsp;&nbsp;
+                                <input type="radio" class="iCheck" name="failRespType" value="XML"  >XML  &nbsp;&nbsp;
+                                <input type="radio" class="iCheck" name="failRespType" value="HTML"  >HTML  &nbsp;&nbsp;
+                                <input type="radio" class="iCheck" name="failRespType" value="TEXT"  >TEXT  &nbsp;&nbsp;
+                                <input type="radio" class="iCheck" name="failRespType" value="JSONP"  >JSONP  &nbsp;&nbsp;
+                                <button type="button" class="btn btn-box-tool pull-right" id="failRespExample_2json" >JSON格式化</button>
+                                <br>
+                                <textarea name="failRespExample" id="failRespExample" style="width: 100%; height: 300px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;margin-top: 15px;" ></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </div>
+
+
+</div>
+
+<!-- jQuery 2.1.4 -->
+<script src="/xxl/adminlte/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.5 -->
+<script src="/xxl/adminlte/bootstrap/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="/xxl/adminlte/plugins/fastclick/fastclick.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/xxl/adminlte/dist/js/app.min.js"></script>
+<script src="/xxl/adminlte/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+
+<!-- pace -->
+<script src="/xxl/plugins/pace/pace.min.js"></script>
+<script src="/xxl/plugins/jquery/jquery.cookie.js"></script>
+<script src="/xxl/plugins/jquery/jquery.validate.min.js"></script>
+
+<script src="/xxl/plugins/layer/layer.js"></script>
+
+<script src="/xxl/js/common.1.js"></script>
+<script>var base_url = '/xxl-api-admin';</script>
+
+
+<script src="/xxl/adminlte/plugins/select2/select2.min.js"></script>
+<script src="/xxl/adminlte/plugins/iCheck/icheck.min.js"></script>
+<script src="/xxl/plugins/editor.md-1.5.0/main/editormd.min.js"></script>
+<script src="/xxl/plugins/jsontree/jquery.jsonview.js"></script>
+<script src="/xxl/js/document.add.1.js"></script>
+</body>
+</html>
