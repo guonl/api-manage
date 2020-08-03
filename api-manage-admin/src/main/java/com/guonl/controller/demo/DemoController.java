@@ -1,12 +1,21 @@
 package com.guonl.controller.demo;
 
+import com.alibaba.fastjson.JSON;
 import com.guonl.dao.TApiUrlMapper;
 import com.guonl.entity.TApiUrlWithBLOBs;
+import com.guonl.model.ApiDocument;
+import com.guonl.model.FrontResult;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+
+@Slf4j
 @Controller
 public class DemoController {
 
@@ -36,7 +45,8 @@ public class DemoController {
     /**************/
 
     @GetMapping("/demo2/add")
-    public String demoAdd2(){
+    public String demoAdd2(ModelMap mmap){
+        mmap.put("projectId",1);
         return "demo2/add";
     }
 
@@ -55,6 +65,14 @@ public class DemoController {
     @GetMapping("/demo2/test")
     public String demoTest2(){
         return "demo2/test";
+    }
+
+
+    @RequestMapping("/document/add")
+    @ResponseBody
+    public FrontResult<Integer> add(HttpServletRequest request, ApiDocument apiDocument) {
+        log.info(JSON.toJSONString(apiDocument));
+        return FrontResult.success(1);
     }
 
 

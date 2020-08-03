@@ -16,7 +16,7 @@ $(function() {
 		width   : "100%",
 		height  : 550,
 		syncScrolling : "single",
-		path    : base_url + "/static/plugins/editor.md-1.5.0/lib/",
+		path    : base_url + "/xxl/plugins/editor.md-1.5.0/lib/",
 		autoFocus:false,
 		//markdown : "",
 		toolbarIcons : function() {
@@ -39,7 +39,8 @@ $(function() {
 			var $select2 = $(this);
 			$($select2).removeClass('select2_tag_new');
 			$($select2).addClass('select2_tag');
-			$($select2).select2({tags: true});
+			// $($select2).select2({tags: true});
+            $($select2).select2();
 		});
 	});
 	/**
@@ -174,9 +175,11 @@ $(function() {
 			element.parent('div').append(error);
 		},
 		submitHandler : function(form) {
+			debugger
 
 			// getMarkdown();、getHTML();、getPreviewedHTML();
-			var remark = remarkEditor.getMarkdown();
+			// var remark = remarkEditor.getMarkdown();
+			// var remark = "";
 
 			// request headers
 			var requestHeaderList = new Array();
@@ -261,7 +264,7 @@ $(function() {
 			// final params
 			var params = $("#ducomentForm").serialize();
 			params += '&' + $.param({
-					'remark':remark,
+					// 'remark':remark,
 					'requestHeaders':requestHeaders,
 					'queryParams':queryParams
 					/*'responseParams':responseParams*/

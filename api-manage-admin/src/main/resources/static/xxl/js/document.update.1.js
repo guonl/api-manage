@@ -16,7 +16,7 @@ $(function() {
 		width   : "100%",
 		height  : 550,
 		syncScrolling : "single",
-		path    : base_url + "/static/plugins/editor.md-1.5.0/lib/",
+		path    : base_url + "/xxl/plugins/editor.md-1.5.0/lib/",
 		autoFocus:false,
 		//markdown : "",
 		toolbarIcons : function() {

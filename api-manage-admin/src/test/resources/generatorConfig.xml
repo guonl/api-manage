@@ -66,6 +66,7 @@
         <!-- 表转代码：tableName：修改表名 -->
 <!--            <table tableName="api_project" domainObjectName="TApiProject"></table>-->
 <!--            <table tableName="api_controller" domainObjectName="TApiController"></table>-->
-            <table tableName="api_url" domainObjectName="TApiUrl"></table>
+            <!--<table tableName="api_url" domainObjectName="TApiUrl"></table>-->
+            <table tableName="api_url_doc" domainObjectName="TApiUrlDoc"></table>
     </context>
 </generatorConfiguration>
