@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * controller列Service接口
  *
- * @author ruoyi
+ * @author guonl
  * @date 2020-07-29
  */
 public interface IApiUrlService {

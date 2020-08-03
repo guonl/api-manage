@@ -6,7 +6,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 /**
  * controller列对象 api_url
  *
- * @author ruoyi
+ * @author guonl
  * @date 2020-07-29
  */
 public class ApiUrl extends BaseEntity {

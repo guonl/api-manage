@@ -1,6 +1,6 @@
 /**
  * 首页方法封装处理
- * Copyright (c) 2019 ruoyi
+ * Copyright (c) 2019 guonl
  */
 layer.config({
     extend: 'moon/style.css',
@@ -285,7 +285,7 @@ $(function() {
     }
     
     function menuBlank() {
-    	// 新窗口打开外网以http://开头，如http://ruoyi.vip
+    	// 新窗口打开外网以http://开头，如http://guonl.vip
     	var dataUrl = $(this).attr('href');
     	window.open(dataUrl);
     	return false;
